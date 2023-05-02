@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Guessing Game</title>
+	<style type="text/css">
+		body {
+			font-family: Arial, sans-serif;
+			text-align: center;
+        background-image: url("https://img.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1409.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+       color: red;
+        /* height: 800px;
+        width: 100%;
+       */
+        
+		}
+		h1 {
+			font-size: 2em;
+			margin-top: 1em;
+		}
+		input[type="text"] {
+			padding: 0.5em;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+            background-color: lightyellow;
+		}
+		input[type="submit"] {
+			padding: 0.5em 1em;
+			background-color:blue;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+        input[type="submit"]:hover{
+            color:cornflowerblue;
+        }
+        
+		.result {
+			margin-top: 2em;
+			font-size: 1.5em;
+		}
+	</style>
+</head>
+<body>
+	<h1>Guessing Game</h1>
+	<p>Enter a number between 1 and 100:</p>
+	<form id="guess-form">
+		<input type="text" id="guess-input" name="guess" placeholder="Enter a number">
+		<input type="submit" value="Guess">
+	</form>
+	<div id="result" class="result"></div>
+
+	<script>
+		// Generate a random number between 1 and 100
+		let secretNumber = Math.floor(Math.random() * 100) + 1;
+		let guesses = 0;
+
+		// Listen for form submission
+		document.querySelector('#guess-form').addEventListener('submit', function(e) {
+			e.preventDefault();
+
+			// Get user's guess
+			let guess = parseInt(document.querySelector('#guess-input').value);
+
+			// Validate the user's guess
+			if (isNaN(guess) || guess < 1 || guess > 100) {
+				document.querySelector('#result').textContent = 'Invalid input! Please enter a number between 1 and 100.';
+				return;
+			}
+
+			// Increment the number of guesses
+			guesses++;
+
+			// Check if the user's guess is correct
+			if (guess === secretNumber) {
+				document.querySelector('#result').textContent = `Congratulations! You guessed the number ${secretNumber} in ${guesses} ${guesses === 1 ? 'guess' : 'guesses' }.`;
+				return;
+			}
+
+			// Check if the user has used all their guesses
+			if (guesses === 5) {
+				document.querySelector('#result').textContent = `Sorry, you didn't guess the number. The number was ${secretNumber}.`;
+				return;
+			}
+
+			// Provide a hint to the user
+			let hint = guess < secretNumber ? 'higher' : 'lower';
+			document.querySelector('#result').textContent = `Incorrect! The number is ${hint} than ${guess}. You have ${5 - guesses} ${5 - guesses === 1 ? 'guess' : 'guesses'} remaining.`;
+		});
+	</script>
+</body>
+</html>
